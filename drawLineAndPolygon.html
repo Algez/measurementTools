@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <!-- 引入 CesiumJS 的 JavaScript 和 CSS 文件 -->
+    <script src="https://cesium.com/downloads/cesiumjs/releases/1.124/Build/Cesium/Cesium.js"></script>
+    <script src="https://unpkg.com/@turf/turf@6/turf.min.js"></script>
+    <script src="./drawLineAndPolygon.js"></script>
+    <script src="./measure.js"></script>
+    <link
+      href="https://cesium.com/downloads/cesiumjs/releases/1.124/Build/Cesium/Widgets/widgets.css"
+      rel="stylesheet"
+    />
+    <link href="./drawLineAndPolygon.css" rel="stylesheet" type="text/css" />
+  </head>
+  <body>
+    <!-- 用于显示 Cesium 地图的容器 -->
+    <div id="cesiumContainer" class="cesiumContainer"></div>
+
+    <!-- 工具栏，包含各种测量功能的按钮 -->
+    <div class="toolbar">
+      <button id="measureDistance">测量距离</button>
+      <button id="measureArea">测量面积</button>
+      <button id="measureClampedDistance">测量距离(贴地)</button>
+      <button id="measureClampedArea">测量面积（贴地）</button>
+      <button id="measureTriangle">三角测量</button>
+      <button id="clearAll">清屏</button>
+    </div>
+
+    <script type="module">
+      // 引入测量工具模块
+      import measureTool from "./measure.js";
+
+      // 设置 Cesium 的默认访问令牌
+      Cesium.Ion.defaultAccessToken =
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiI0NDljOTBhYS03MzdjLTQ3YWEtOGE2ZS02MzIxOGE3MDZlNDYiLCJpZCI6MjU5MzQyLCJpYXQiOjE3MzMxOTE4NDV9.ECl9KkFYVbK1pbQPbga-VBLHAtB00KoSHlOaXPgjEbI";
+
+      // 初始化 Cesium Viewer
+      const viewer = new Cesium.Viewer("cesiumContainer", {
+        terrainProvider: await Cesium.createWorldTerrainAsync(), // 加载全球地形
+        baseLayerPicker: false, // 禁用图层选择器
+        timeline: false, // 禁用时间轴
+        sceneModePicker: false, // 禁用场景模式选择器
+        geocoder: false, // 禁用地理编码器
+        homeButton: false, // 禁用主页按钮
+        infoBox: false, // 禁用信息框
+        animation: false, // 禁用动画控件
+      });
+
+      // 开启深度测试，使地形在视图中正常渲染
+      viewer.scene.globe.depthTestAgainstTerrain = true;
+
+      // 创建测量工具实例
+      const triangleTool = new measureTool(viewer);
+
+      // 定义按钮操作的事件绑定
+      const buttonActions = {
+        measureDistance: () => measureLine(viewer), // 测量直线距离
+        measureArea: () => drawPolygonAndCalculateArea(viewer), // 测量多边形面积
+        measureClampedDistance: () => measureClampedLine(viewer), // 测量贴地直线距离
+        measureClampedArea: () => measurePolygn(viewer), // 测量贴地多边形面积
+        measureTriangle: () => triangleTool.drawTriangle(), // 绘制三角形测量工具
+        clearAll: () => {
+          // 清空所有绘制内容
+          triangleTool.deleteTriangle();
+          viewer.entities.removeAll();
+        },
+      };
+
+      // 遍历绑定每个按钮的事件处理程序
+      Object.entries(buttonActions).forEach(([id, action]) => {
+        document.getElementById(id).addEventListener("click", action);
+      });
+
+      // 将视图聚焦到高山区域
+      viewer.camera.lookAt(
+        Cesium.Cartesian3.fromDegrees(86.922623, 27.986065, 15000.0), // 坐标为珠穆朗玛峰区域
+        new Cesium.Cartesian3(5000.0, 5000.0, 5000.0)
+      );
+      viewer.camera.lookAtTransform(Cesium.Matrix4.IDENTITY); // 重置相机变换矩阵
+    </script>
+  </body>
+</html>
