@@ -1,0 +1,100 @@
+/* 定义 Cesium 容器的样式 */
+.cesiumContainer {
+  position: absolute; /* 绝对定位，覆盖整个屏幕 */
+  top: 0; /* 距离顶部 0 */
+  left: 0; /* 距离左侧 0 */
+  right: 0; /* 距离右侧 0 */
+  bottom: 0; /* 距离底部 0 */
+  width: 100%; /* 宽度占满 100% */
+}
+
+/* 切换按钮的样式 */
+.toggleButton {
+  position: absolute; /* 绝对定位 */
+  top: 23%; /* 距离顶部 2% */
+  left: 2%; /* 距离左侧 2% */
+  z-index: 110; /* 设置堆叠顺序，确保按钮在前 */
+  background: rgba(255, 255, 255, 0.6); /* 半透明白色背景 */
+  border: 3px solid; /* 3 像素实线边框 */
+  border-radius: 10px; /* 圆角半径 10px */
+  padding: 5px 10px; /* 内边距：垂直 5px，水平 10px */
+  font-family: "Open Sans", sans-serif; /* 使用 Open Sans 字体 */
+  font-size: 10px; /* 字体大小 10px */
+  letter-spacing: 1.5px; /* 字母间距 1.5px */
+  text-transform: uppercase; /* 转换为大写 */
+  cursor: pointer; /* 鼠标悬停时显示手型 */
+  box-shadow: 1px 1px 0px 0px, 2px 2px 0px 0px, 3px 3px 0px 0px, 4px 4px 0px 0px,
+    5px 5px 0px 0px; /* 添加多层投影效果 */
+}
+
+/* 切换按钮按下时的样式 */
+.toggleButton:active {
+  box-shadow: 0px 0px 0px 0px; /* 去掉阴影效果 */
+}
+
+/* 工具栏的样式 */
+.toolbar {
+  position: absolute; /* 绝对定位 */
+  top: 28%; /* 距离顶部 20% */
+  left: 2%; /* 距离左侧 2% */
+  z-index: 100; /* 堆叠顺序比切换按钮低 */
+  background: rgba(255, 255, 255, 0.6); /* 半透明白色背景 */
+  padding: 15px; /* 内边距 15px */
+  border-radius: 10px; /* 圆角半径 10px */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* 添加柔和阴影效果 */
+  display: flex; /* 使用 Flex 布局 */
+  flex-direction: column; /* 元素排列方向为列 */
+  transition: all 0.3s ease-in-out; /* 添加平滑过渡效果 */
+}
+
+/* 工具栏隐藏时的样式 */
+.toolbar.hidden {
+  transform: translateX(-150%); /* 向左移出视图范围 */
+  opacity: 0; /* 透明度为 0 */
+}
+
+/* 工具栏中按钮的样式 */
+.toolbar button {
+  margin: 5px 0; /* 上下间距 5px，左右间距 0 */
+  font-family: "Open Sans", sans-serif; /* 使用 Open Sans 字体 */
+  font-size: 10px; /* 字体大小 10px */
+  letter-spacing: 1.5px; /* 字母间距 1.5px */
+  text-decoration: none; /* 去掉下划线 */
+  text-transform: uppercase; /* 转换为大写 */
+  color: #000; /* 字体颜色为黑色 */
+  cursor: pointer; /* 鼠标悬停时显示手型 */
+  border: 3px solid; /* 3 像素实线边框 */
+  padding: 0.25em 0.5em; /* 内边距：垂直 0.25em，水平 0.5em */
+  box-shadow: 1px 1px 0px 0px, 2px 2px 0px 0px, 3px 3px 0px 0px, 4px 4px 0px 0px,
+    5px 5px 0px 0px; /* 添加多层投影效果 */
+  user-select: none; /* 禁止用户选中文本 */
+  -webkit-user-select: none; /* 兼容 Safari 的文本选择禁用 */
+  touch-action: manipulation; /* 禁用触摸设备上的拖动操作 */
+  display: block; /* 块级元素 */
+}
+
+/* 工具栏按钮按下时的样式 */
+.toolbar button:active {
+  box-shadow: 0px 0px 0px 0px; /* 去掉阴影效果 */
+}
+
+/* 比例尺定位 */
+/* .distance-legend {
+  position: absolute; 
+  right: 10px;
+  bottom: 10px;
+} */
+
+/*罗盘定位*/
+/* .compass {
+  position: absolute; 
+  right: 50px;
+  top: 60px;
+} */
+/*缩放定位*/
+/* .navigation-controls {
+  position: absolute;
+  right: 30px;
+  top: 170px;
+  height: 80px;
+} */
